@@ -1,0 +1,26 @@
+from rest_framework import generics, permissions
+from .serializers import RegistrationSerializer
+from .models import CustomUser
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from .serializers import LoginSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+
+class RegistrationAPIView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = RegistrationSerializer
+    permission_classes = [permissions.AllowAny]
+
+class LoginAPIView(generics.GenericAPIView):
+    serializer_class = LoginSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
