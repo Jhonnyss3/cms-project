@@ -28,11 +28,12 @@ class LoginSerializer(serializers.Serializer):
 # Serializer para Cadastro (Registro)
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
+    photo = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = CustomUser
-        fields = ('name', 'username', 'password', 'email', 'photo')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ('name', 'username', 'password', 'email', 'photo', 'created_at')
+        extra_kwargs = {'password': {'write_only': True}, 'photo': {'required': False, 'allow_null': True}, 'created_at': {'read_only': True}}
 
     def create(self, validated_data):
         password = validated_data.pop('password')
