@@ -5,6 +5,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from .serializers import LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+from .serializers import ActiveUserListSerializer
 
 class RegistrationAPIView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -24,3 +25,8 @@ class LoginAPIView(generics.GenericAPIView):
             'refresh': str(refresh),
             'access': str(refresh.access_token),
         })
+
+class ActiveUserListAPIView(generics.ListAPIView):
+    queryset = CustomUser.objects.filter(is_active=True)
+    serializer_class = ActiveUserListSerializer
+    permission_classes = [permissions.IsAuthenticated]

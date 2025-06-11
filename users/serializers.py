@@ -41,3 +41,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+    
+#Serializer para Cadastro (Registro)
+class ActiveUserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('name', 'username', 'created_at')
