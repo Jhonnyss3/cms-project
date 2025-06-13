@@ -7,11 +7,13 @@ from .serializers import LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import ActiveUserListSerializer
 
+# Registra um novo usuário
 class RegistrationAPIView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = RegistrationSerializer
     permission_classes = [permissions.AllowAny]
 
+# Autentica um usuário já criado
 class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -26,6 +28,7 @@ class LoginAPIView(generics.GenericAPIView):
             'access': str(refresh.access_token),
         })
 
+#Lista os usuários ativos
 class ActiveUserListAPIView(generics.ListAPIView):
     queryset = CustomUser.objects.filter(is_active=True)
     serializer_class = ActiveUserListSerializer
