@@ -9,6 +9,7 @@ class Post(models.Model):
     link = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_visible = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
